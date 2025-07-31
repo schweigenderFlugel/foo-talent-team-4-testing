@@ -2,11 +2,9 @@ FROM python:3.13-alpine3.21 AS build
 
 WORKDIR /source
 
+RUN pip install pipenv
+
 COPY Pipfile Pipfile.lock ./
-
-RUN pip install --upgrade pip
-
-RUN pip install pipenv 
 
 RUN pipenv install --system --deploy
 
@@ -14,12 +12,15 @@ FROM python:3.13-alpine3.21 AS final
 
 WORKDIR /source
 
-COPY --from=build /source ./
+# Copy installed packages from builder stage
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 COPY api ./
-COPY scripts ./
 
 RUN addgroup -g 1234 footeam-group && \
   adduser -D -u 1234 -G footeam-group footeam-user
 
 USER footeam-user:footeam-group
+
+CMD ["python", "main.py"]

@@ -19,14 +19,14 @@ except Exception as e:
 
 @asynccontextmanager
 async def create_db_and_tables(app: FastAPI):
-  SQLModel.metadata.create_all(engine)
-  yield
+    SQLModel.metadata.create_all(engine)
+    yield
 
-def get_session(app: FastAPI):
+def get_session():
     with Session(engine) as session:
         try:
             yield session
         finally:
             session.close()
 
-DatabaseDep = Annotated[Session, Depends(get_session)]
+SessionDep = Annotated[Session, Depends(get_session)]
