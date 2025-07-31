@@ -1,9 +1,13 @@
 from fastapi import FastAPI
-import uvicorn
 from dotenv import load_dotenv
+import uvicorn
 import os
 
-app = FastAPI()
+from config.db_config import get_session
+
+load_dotenv()
+
+app = FastAPI(lifespan=get_session)
 
 @app.get('/')
 def hello():
