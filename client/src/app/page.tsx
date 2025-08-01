@@ -45,7 +45,7 @@ export default async function Home({
           Welcome to TestingApp
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Manage your business costs efficiently while enjoying some of Marvel's finest characters
+          Manage your business costs efficiently while enjoying some of Marvel&apos;s finest characters
         </p>
       </section>
 
