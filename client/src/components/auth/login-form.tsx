@@ -25,7 +25,8 @@ const LoginForm = () => {
     startTransition(async () => {
       setError("")
       const response = await onLoginSubmit(values)
-      if (response.error) setError(response.error)
+      if (response.error) setError(response.error);
+      
     })
   })
 
@@ -44,7 +45,7 @@ const LoginForm = () => {
         register={register}
         errors={errors}
       />
-      
+
       {<p className="text-red-500 text-sm font-semibold text-center">{error}</p>}
 
       <SubmitButton pendingText="Iniciando" text="Iniciar sesión" form="login" isPending={isPending} />

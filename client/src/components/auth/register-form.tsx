@@ -19,13 +19,19 @@ const RegisterForm = () => {
   })
 
   const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>("")
 
   const onSubmit = handleSubmit((values: RegisterUserFormData) => {
     startTransition(async () => {
-      setError("")
+      setError(false);
+      setMessage("")
       const response = await onRegisterSubmit(values)
-      if (response.error) setError(response.error)
+      if (response.error) {
+        setError(true);
+        setMessage(response.error)
+      } else setMessage(response.message ?? "No existe mensaje de respuesta...");
+
     })
   })
 
@@ -37,7 +43,7 @@ const RegisterForm = () => {
           Enter your email below to register for a new account.
         </p>
       </div>
-      
+
       <AuthForm
         id="register"
         onSubmit={onSubmit}
@@ -45,9 +51,9 @@ const RegisterForm = () => {
         errors={errors}
       />
 
-      {<p className="text-red-500 text-sm font-semibold text-center">{error}</p>}
+      {<p className={`${error ? "text-red-500" : ""} text-sm font-semibold text-center`}>{message}</p>}
 
-      <SubmitButton pendingText="Iniciando" text="Iniciar sesión" form="register" isPending={isPending} />
+      <SubmitButton pendingText="Cargando..." text="Registrarme" form="register" isPending={isPending} />
 
       <div className="text-center text-sm">
         Already have an account?{" "}
