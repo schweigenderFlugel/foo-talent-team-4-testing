@@ -26,7 +26,7 @@ const Dashboard = () => {
     }
 
     return (
-        <main className="min-h-screen text-white text-center content-center">
+        <section className="min-h-screen text-white text-center content-center">
             <div className="bg-black rounded-xl my-auto max-w-lg mx-auto p-3">
                 <h1 className="text-4xl my-2 p-2">Usuario conectado</h1>
                 <h2 className="text-2xl font-bold p-2">
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
                 <SubmitButton pendingText="Cerrando" text="Cerrar Sesión" isPending={pending} variant={"destructive"} className="my-3 cursor-pointer" type="button" onClick={handleClick} />
             </div>
-        </main>
+        </section>
     )
 }
 
