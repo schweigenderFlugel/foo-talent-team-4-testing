@@ -42,7 +42,7 @@ export default async function Home({
     <div className="container mx-auto px-4 py-8">
       <section className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome to CostManager
+          Welcome to TestingApp
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Manage your business costs efficiently while enjoying some of Marvel's finest characters
@@ -50,8 +50,8 @@ export default async function Home({
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {response.success ? characters?.map((character: MarvelCharacter) => (
-          <Suspense>
+        <Suspense>
+          {response.success ? characters?.map((character: MarvelCharacter) => (
             <div
               key={character.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl  group"
@@ -73,10 +73,10 @@ export default async function Home({
                 </p>
               </div>
             </div>
-          </Suspense>
-        ))
-          : response.message || 'Failed to fetch characters'
-        }
+          ))
+            : response.message || 'Failed to fetch characters'
+          }
+        </Suspense>
       </div>
 
       {!response.success ? (
