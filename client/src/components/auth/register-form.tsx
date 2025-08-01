@@ -1,9 +1,33 @@
-import { Button } from "@/components/ui/button"
+"use client"
 import Link from "next/link"
 import AuthForm from "./auth-form"
 import onRegisterSubmit from "@/actions/auth/register"
+import { useState, useTransition } from "react"
+import { RegisterUserFormData } from "@/types/auth/form-data"
+import { useForm } from "react-hook-form"
+import SubmitButton from "./submit-button"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { registerUserSchema } from "@/lib/zod/auth-schema"
 
 const RegisterForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterUserFormData>({
+    resolver: zodResolver(registerUserSchema),
+  })
+
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string>("")
+
+  const onSubmit = handleSubmit((values: RegisterUserFormData) => {
+    startTransition(async () => {
+      setError("")
+      const response = await onRegisterSubmit(values)
+      if (response.error) setError(response.error)
+    })
+  })
 
   return (
     <div className="flex flex-col gap-6" >
@@ -13,12 +37,17 @@ const RegisterForm = () => {
           Enter your email below to register for a new account.
         </p>
       </div>
+      
+      <AuthForm
+        id="register"
+        onSubmit={onSubmit}
+        register={register}
+        errors={errors}
+      />
 
-      <AuthForm id="register" action={onRegisterSubmit} />
+      {<p className="text-red-500 text-sm font-semibold text-center">{error}</p>}
 
-      <Button type="submit" form="register" className="w-full">
-        Register
-      </Button>
+      <SubmitButton pendingText="Iniciando" text="Iniciar sesión" form="register" isPending={isPending} />
 
       <div className="text-center text-sm">
         Already have an account?{" "}
