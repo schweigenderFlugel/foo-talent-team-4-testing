@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 
 type Response = { access_token: string, token_type: string }
 
-const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string }> => {
+const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string, email?: string }> => {
     const validated = loginSchema.safeParse(formData)
 
     if (!validated.success) return { error: 'Datos inválidos' }
@@ -36,7 +36,7 @@ const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string 
     }
 
 
-    return {}
+    return { email: formData.email }
 }
 
 

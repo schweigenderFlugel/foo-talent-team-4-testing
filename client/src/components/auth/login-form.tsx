@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginFormData } from "@/types/auth/form-data"
 import SubmitButton from "./submit-button"
 import { useState, useTransition } from "react"
+import useUser from "@/hooks/use-user"
+import { useRouter } from "next/navigation"
 
 const LoginForm = () => {
   const {
@@ -21,12 +23,17 @@ const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string>("")
 
+  const router = useRouter()
+  const { setUser, setIsLogged } = useUser()
+
   const onSubmit = handleSubmit((values: LoginFormData) => {
     startTransition(async () => {
       setError("")
       const response = await onLoginSubmit(values)
-      if (response.error) setError(response.error);
-      
+      if (response.error) return setError(response.error);
+      setUser({ email: response.email ?? "" })
+      setIsLogged(true)
+      router.push("/dashboard")
     })
   })
 
