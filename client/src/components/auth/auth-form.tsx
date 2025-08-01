@@ -12,6 +12,7 @@ export interface AuthFormProps {
 }
 
 const AuthForm = ({ className, register, errors, ...props }: ComponentProps<"form"> & AuthFormProps) => {
+
   return (
     <form className={cn(className, "grid gap-6")} {...props}>
       <div className="grid gap-3">
