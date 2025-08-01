@@ -3,7 +3,7 @@ import { FetcherProps } from "@/types/request/fetcher";
 
 interface Response<T> { message?: string, success: boolean, data?: T }
 
-const fetcher = async<T>({ url, tags = [], revalidate, errorMessage, successMessage = null, ...options }: FetcherProps): Promise<Response<T>> => {
+const fetcher = async<T>({ url, tags = [], revalidate, errorMessage, ...options }: FetcherProps): Promise<Response<T>> => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000); // 8s timeout
     try {
