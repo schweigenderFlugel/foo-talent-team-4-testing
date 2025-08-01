@@ -25,9 +25,9 @@ const LoginPage = () => {
       </div>
       <div className="bg-muted relative hidden lg:block">
         <img
-          src="/placeholder.svg"
+          src="https://wallpaperbat.com/img/853516-marvel-comic-characters-wallpaper-top-free-marvel-comic-characters-background.jpg"
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="absolute inset-0 h-full w-full object-cover object-right brightness-[0.9]"
         />
       </div>
     </div>
