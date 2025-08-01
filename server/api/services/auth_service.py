@@ -3,7 +3,7 @@ from jose import JWTError, jwt
 
 from config.db_config import SessionDep
 from config.envs import SECRET_KEY, ALGORITHM
-from models.auth_models import User, RegisterUser, Login
+from models.auth_model import User, RegisterUser, Login
 from utils.jwt_utils import get_password_hash, create_access_token, verify_password
 
 def register(user: RegisterUser, db: SessionDep):
@@ -23,7 +23,7 @@ def login(user: Login, db: SessionDep):
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials (credenciales inválidas)")
 
-    access_token = create_access_token(data={"sub": db_user.email})
+    access_token = create_access_token(data={"sub": db_user.email, "role": db_user.role})
     return {"access_token": access_token, "token_type": "bearer"}
 
 def get_current_user(token: str, db: SessionDep):
