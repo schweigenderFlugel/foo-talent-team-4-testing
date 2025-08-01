@@ -1,0 +1,30 @@
+from dataclasses import dataclass
+from typing import Annotated, TypedDict
+from fastapi import Request, Security, Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+
+from utils.jwt_utils import verify_access_token
+from models.auth_model import Role
+
+@dataclass
+class JwtPayload:
+    sub: str
+    role: Role
+
+security = HTTPBearer()
+
+async def authenticate(
+    request: Request,
+    credentials: HTTPAuthorizationCredentials = Security(security)
+):
+    token = credentials.credentials
+    payload: JwtPayload = verify_access_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+        )
+    
+    request.state.user = payload
+
+JwtDep = Annotated[JwtPayload, Depends(authenticate)]

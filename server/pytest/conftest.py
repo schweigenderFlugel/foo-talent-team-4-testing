@@ -10,7 +10,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from api.main import app
-from api.config.db_config import get_session
+from api.deps.db_session_dep import get_session
 
 load_dotenv()
 

@@ -1,8 +1,9 @@
 from fastapi import APIRouter
-from config.db_config import SessionDep
+
+from deps.db_session_dep import SessionDep
 from services import auth_service
 
-from models.auth_model import User, RegisterUser, Login
+from models.auth_model import RegisterUser, Login
 
 from schemas.jwt_response import TokenResponse
 from schemas.http_response import Response
@@ -58,9 +59,3 @@ def register(user: RegisterUser, session: SessionDep):
 def login(user: Login, session: SessionDep):
   return auth_service.login(user, session)
 
-@router.get("/me")
-def read_current_user(current_user: User):
-  return {
-    "email": current_user.email,
-    "id": current_user.id,
-  }
