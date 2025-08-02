@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Foo Talent Team 4 - Testing Project
 
-## Getting Started
+Este proyecto es una aplicación web desarrollada con Next.js que implementa funcionalidades básicas de autenticación y gestión de usuarios como prueba de concepto.
 
-First, run the development server:
+## 🌟 Características Implementadas
 
+### 🔐 Sistema de Autenticación
+- **Ruta Privada**: Dashboard
+- **Rutas Públicas**: Implementación de rutas públicas para login y registro
+- **Formularios Validados**: 
+  - Validación de campos mediante Zod
+  - Manejo de errores en tiempo real
+  - Feedback visual para el usuario
+  
+[![login.png](https://i.ibb.co/rKsc64rq/image.png)](https://ibb.co/ZRmY8WDv)
+
+### 🛠️ Arquitectura y Estructura
+- **Gestión de Estado**: Implementación de Zustand para el manejo del estado global
+- **Manejo de Formularios**: Uso de React Hook Form con validación Zod
+- **Componentes UI**: Implementación de componentes reutilizables con Tailwind CSS
+
+### 🚀 Despliegue
+- **URL de Producción**: [https://ft-equipo04-testing-app.vercel.app/](https://ft-equipo04-testing-app.vercel.app/)
+- **Plataforma**: Vercel
+
+## 🌐 Gestión del Repositorio
+
+### Estructura de Ramas
+- `main`: Rama principal de producción
+- `dev`: Rama de desarrollo
+- `client-dev`: Rama específica para desarrollo del cliente
+
+### Convenciones de Commits
+Se sigue una estructura clara para los mensajes de commit:
+- `feat`: Nuevas características
+- `fix`: Correcciones de bugs
+- `docs`: Cambios en documentación
+- `style`: Cambios que no afectan el significado del código
+- `refactor`: Refactorización del código
+
+## 🚀 Comenzando
+
+### Prerrequisitos
+- Node.js (versión recomendada: 18.x o superior)
+- npm o yarn
+
+### Instalación
+
+1. Clonar el repositorio:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/schweigenderFlugel/foo-talent-team-4-testing.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instalar dependencias:
+```bash
+cd client
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Iniciar el servidor de desarrollo:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## 📁 Estructura del Proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── actions/         # Acciones de servidor y cliente
+├── app/            # Rutas y páginas de la aplicación
+├── components/     # Componentes reutilizables
+├── hooks/         # Custom hooks
+├── lib/           # Utilidades y configuraciones
+├── store/         # Estado global (Zustand)
+└── types/         # Definiciones de tipos TypeScript
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔄 Estado Actual del Desarrollo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Completado ✅
+- Configuración inicial del proyecto
+- Consumo de API pública (Marvel) con paginación
+- Sistema de autenticación básico
+- Formularios de login y registro
+- Despliegue en Vercel
+- Implementación de rutas protegidas
 
-## Deploy on Vercel
+### En Progreso 🚧
+- Implementación de dashboard
+- Mejoras en la UI/UX
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![image-dashboard.png](https://i.ibb.co/PGxpVNNT/image.png)
