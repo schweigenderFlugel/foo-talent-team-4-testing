@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 
 from deps.db_session_dep import SessionDep
 from services import auth_service
@@ -56,6 +56,6 @@ def register(user: RegisterUser, session: SessionDep):
     ).custom_response(),
   },
 )
-def login(user: Login, session: SessionDep):
-  return auth_service.login(user, session)
+def login(session: SessionDep, body: Login = Body()):
+  return auth_service.login(db=session, body=body)
 
