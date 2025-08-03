@@ -11,14 +11,21 @@ class JwtPayload:
     sub: str
     role: Role
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 async def authenticate(
     request: Request,
     credentials: HTTPAuthorizationCredentials = Security(security)
 ):
+    if credentials is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authorization token is missing",
+        )
+    
     token = credentials.credentials
     payload: JwtPayload = verify_access_token(token)
+    
     if payload is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
