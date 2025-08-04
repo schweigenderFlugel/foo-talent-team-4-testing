@@ -36,9 +36,9 @@ router = APIRouter(
     ).custom_response(),
   },            
 )
-def get_current_user(request: Request, session: SessionDep, jwt: JwtDep):
-  email = request.state.user['sub']
-  return user_service.get_current_user(email, session)
+def get_current_user(request: Request, jwt: JwtDep, session: SessionDep):
+  user_id = request.state.user['sub']
+  return user_service.get_current_user(session, user_id)
 
 @router.get("",
   status_code=200,
@@ -90,4 +90,4 @@ def get_all_users(session: SessionDep, jwt: JwtDep, adminRole: AdminRoleDep):
   },            
 )
 def get_user_by_id(id: str, session: SessionDep, jwt: JwtDep, adminRole: AdminRoleDep):
-  return user_service.get_user_by_id(id, session)
+  return user_service.get_user_by_id(db=session, user_id=id)
