@@ -54,12 +54,12 @@ def get_current_user(request: Request, jwt: JwtDep, session: SessionDep):
     403: Response(
       description='Not allowed because invalid role', 
       content_type='application/json',
-      message='Not allowed',
+      message='Not allowed to access',
     ).custom_response(),
     500: Response(
       description='Unexpected error has ocurred', 
       content_type='application/json',
-      message="Unexpected internal server error"
+      message="Internal server error"
     ).custom_response(),
   },            
 )
@@ -80,12 +80,12 @@ def get_all_users(session: SessionDep, jwt: JwtDep, adminRole: AdminRoleDep):
     403: Response(
       description='Not allowed because invalid role', 
       content_type='application/json',
-      message='Not allowed',
+      message='Not allowed to access',
     ).custom_response(),
     500: Response(
-      description='Unexpected error has ocurred', 
+      description='Unexpected internal error has ocurred', 
       content_type='application/json',
-      message="Unexpected internal server error"
+      message="Internal server error"
     ).custom_response(),
   },            
 )

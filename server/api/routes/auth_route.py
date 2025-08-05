@@ -1,13 +1,18 @@
 from fastapi import APIRouter, Body
-from fastapi import Response
+from fastapi import Response as Res
+from datetime import datetime, timezone, timedelta
 
 from deps.db_session_dep import SessionDep
+from deps.refresh_session_dep import RefreshSessionDep
+
 from services import auth_service
 
 from models.auth_model import RegisterUser, Login
 
 from schemas.jwt_response import TokenResponse
 from schemas.http_response import Response
+
+from config.envs import COOKIE_NAME
 
 router = APIRouter(
   tags=["Auth"],
@@ -48,7 +53,7 @@ def register(session: SessionDep, body: RegisterUser):
     401: Response(
       description='Invalid creadentials', 
       content_type='application/json',
-      message='CRedentials are invalid',
+      message='Credentials are invalid',
     ).custom_response(),
     500: Response(
       description='Unexpected error has ocurred', 
@@ -57,6 +62,49 @@ def register(session: SessionDep, body: RegisterUser):
     ).custom_response(),
   },
 )
-def login(session: SessionDep, body: Login = Body()):
-  return auth_service.login(db=session, body=body)
+def login(res: Res, session: SessionDep, body: Login = Body()):
+  tokens = auth_service.login(db=session, body=body)
+  res.set_cookie(
+    key=COOKIE_NAME,
+    value=tokens['refresh_token'],
+    httponly=True, 
+    secure=False, 
+    samesite='none',
+    expires=(datetime.now(timezone.utc) + timedelta(hours=2))
+  )
+  return { "access_token": tokens['access_token'] }
 
+@router.get("/refresh",
+  status_code=200,
+  tags=['Auth'], 
+  summary='Refresh session',
+  responses={
+    401: Response(
+      description='Session not found', 
+      content_type='application/json',
+      message='Session not found',
+    ).custom_response(),
+    500: Response(
+      description='Unexpected error has ocurred', 
+      content_type='application/json',
+      message="Unexpected internal server error"
+    ).custom_response(),
+  },
+)
+def refresh(res: Res, session: SessionDep, payload: RefreshSessionDep):
+  res.delete_cookie(
+    key=COOKIE_NAME, 
+    httponly=True, 
+    secure=False, 
+    samesite='none',
+  )
+  tokens = auth_service.refresh(db=session, payload=payload)
+  res.set_cookie(
+    key=COOKIE_NAME,
+    value=tokens['refresh_token'],
+    httponly=True, 
+    secure=False, 
+    samesite='none',
+    expires=(datetime.now(timezone.utc) + timedelta(hours=2))
+  )
+  return { "access_token": tokens['access_token'] }

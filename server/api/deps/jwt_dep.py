@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Annotated, TypedDict
+from typing import Annotated
 from fastapi import Request, Security, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
@@ -34,4 +34,4 @@ async def authenticate(
     
     request.state.user = payload
 
-JwtDep = Annotated[JwtPayload, Depends(authenticate)]
+JwtDep = Annotated[None, Depends(authenticate)]

@@ -4,7 +4,6 @@ from sqlalchemy.orm import load_only
 from deps.db_session_dep import SessionDep
 from deps.jwt_dep import JwtDep
 
-from config.envs import SECRET_KEY, ALGORITHM
 from models.auth_model import User
 
 def get_current_user(db: SessionDep, user_id: str):
