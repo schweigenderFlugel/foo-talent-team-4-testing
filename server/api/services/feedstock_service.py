@@ -17,6 +17,15 @@ def get_feedstocks(db: SessionDep, pagination: Pagination):
         raise http_err
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
+    
+def get_feedstock_by_id(db: SessionDep, id: str):
+    try:
+        feedstock: Feedstock = db.exec(select(Feedstock).where(Feedstock.id == id)).first()
+        return feedstock.model_dump()
+    except HTTPException as http_err:
+        raise http_err
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e)
 
 def create_feedstock(db: SessionDep, body: CreateFeedstock):
     try:
@@ -30,7 +39,6 @@ def create_feedstock(db: SessionDep, body: CreateFeedstock):
         raise http_err
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
-
 
 def update_feedstock(db: SessionDep, id: str, body: UpdateFeedstock): # type: ignore
     try:
@@ -48,7 +56,6 @@ def update_feedstock(db: SessionDep, id: str, body: UpdateFeedstock): # type: ig
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
 
-    
 def delete_feedstock(db: SessionDep, id: str):
     try:
         feedstock_found = db.get(Feedstock, id)
