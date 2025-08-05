@@ -25,3 +25,8 @@ export interface Feedstock extends CreateFeedStock {
 }
 
 
+export interface ResponseFeedstock {
+    description?: string,
+    message?: string,
+    error?: string
+}
