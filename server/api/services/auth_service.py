@@ -17,7 +17,7 @@ def register(db: SessionDep, body: RegisterUser):
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"msg": "User successfully created!"}
+    return {"message": "User successfully created!"}
 
 def login(db: SessionDep, body: Login):
     user_found: User = db.exec(select(User).where(User.email == body.email)).first()
