@@ -32,7 +32,7 @@ router = APIRouter(
     ).custom_response(),
   },            
 )
-def get_feedstocks(session: SessionDep, pagination: Pagination = Query()):
+def get_feedstocks(session: SessionDep, jwt: JwtDep, adminRole: AdminRoleDep, pagination: Pagination = Query()):
   return feedstock_service.get_feedstocks(db=session, pagination=pagination)
 
 @router.get("/{id}",
@@ -48,7 +48,7 @@ def get_feedstocks(session: SessionDep, pagination: Pagination = Query()):
     ).custom_response(),
   },            
 )
-def get_feedstock_by_id(session: SessionDep, id: str):
+def get_feedstock_by_id(session: SessionDep, jwt: JwtDep, adminRole: AdminRoleDep, id: str):
   return feedstock_service.get_feedstock_by_id(db=session, id=id)
 
 @router.post("",

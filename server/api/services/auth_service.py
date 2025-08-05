@@ -12,11 +12,11 @@ def register(db: SessionDep, body: RegisterUser):
     if existing_user:
         raise HTTPException(status_code=409, detail="Email already registered!")
 
-    body['password'] = get_password_hash(body.password)
-    new_user = User.model_validate(body)
-    db.add(new_user)
+    hashed = get_password_hash(body.password)
+    user = User(email=body.email, password=hashed)
+    db.add(user)
     db.commit()
-    db.refresh(new_user)
+    db.refresh(user)
     return {"msg": "User successfully created!"}
 
 def login(db: SessionDep, body: Login):

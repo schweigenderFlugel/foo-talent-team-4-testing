@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from fastapi import Response
 
 from deps.db_session_dep import SessionDep
 from services import auth_service
@@ -6,7 +7,6 @@ from services import auth_service
 from models.auth_model import RegisterUser, Login
 
 from schemas.jwt_response import TokenResponse
-from schemas.http_response import Response
 
 router = APIRouter(
   tags=["Auth"],
