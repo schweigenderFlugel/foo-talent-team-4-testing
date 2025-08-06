@@ -13,8 +13,6 @@ export async function GET(req: NextRequest) {
             url: `${process.env.SERVER_URL}/users/me`,
             headers: { "Authorization": "Bearer " + token }
         })
-
-        if (!("id" in user)) throw new Error('No se encontró el usuario')
         return NextResponse.json(user)
     } catch (err) {
         return NextResponse.json({ error: 'Token inválido' }, { status: 401 })

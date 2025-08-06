@@ -33,10 +33,13 @@ const LoginForm = () => {
       setError("")
       const response = await onLoginSubmit(values)
       if (response.error) return setError(response.error);
-      const user = await fetcher<User>({ url: "/api/auth/currentUser" })
-      if ("error" in user || !user.data) return setError(user.message || "No se pudo obtener el usuario");
-      setUser(user.data)
-      router.push("/dashboard")
+      const res = await fetch("/api/auth/currentUser")
+      const user = await res.json()
+      if ("error" in user) return setError("No se pudo obtener el usuario");
+      if ("data" in user && user.data != null) {
+        setUser(user.data as User)
+        router.push("/dashboard")
+      }
     })
   })
 

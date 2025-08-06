@@ -31,11 +31,15 @@ const LogoutButton = () => {
     }
 
     if (!user) return null;
-
-    return (
+    return (<>
+        <p className="text-gray-600  flex flex-col px-3 py-2">
+            <span className="text-[0.7rem] text-muted-foreground">Email:</span>
+            <span className="text-[0.8rem] font-medium">{user.email}</span>
+        </p>
         <Button onClick={handleLogout} type="button" disabled={isPending}>
             {isPending ? 'Cerrando sesión...' : 'Cerrar sesión'}
         </Button>
+    </>
     )
 }
 
