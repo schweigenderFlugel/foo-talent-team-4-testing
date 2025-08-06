@@ -19,12 +19,16 @@ const fetch = async <T>({ method, path, body }: { method?: string, path?: string
         url: URL + (path ?? ""),
         headers: { "Authorization": `Bearer ${token}` },
         body,
+        next: { tags: ["feedstocks"] }
     })
     return res;
 }
 
-export const getFeedstocks = async () => {
-    const res = await fetch<Feedstock[] | { error: string }>({})
+export const getFeedstocks = async ({
+    page = 1,
+    limit = 100,
+}: { page?: number; limit?: number } = {}) => {
+    const res = await fetch<Feedstock[] | { error: string }>({ path: `?limit=${limit}&page=${page}` })
     return res
 }
 
