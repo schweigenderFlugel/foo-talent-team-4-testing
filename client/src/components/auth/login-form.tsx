@@ -10,6 +10,8 @@ import SubmitButton from "./submit-button"
 import { useState, useTransition } from "react"
 import useUser from "@/hooks/use-user"
 import { useRouter } from "next/navigation"
+import fetcher from "@/utils/fetcher"
+import { User } from "@/types/auth/user"
 
 const LoginForm = () => {
   const {
@@ -24,15 +26,16 @@ const LoginForm = () => {
   const [error, setError] = useState<string>("")
 
   const router = useRouter()
-  const { setUser, setIsLogged } = useUser()
+  const { setUser } = useUser()
 
   const onSubmit = handleSubmit((values: LoginFormData) => {
     startTransition(async () => {
       setError("")
       const response = await onLoginSubmit(values)
       if (response.error) return setError(response.error);
-      setUser({ email: response.email ?? "" })
-      setIsLogged(true)
+      const user = await fetcher<User>({ url: "/api/auth/currentUser" })
+      if ("error" in user || !user.data) return setError(user.message || "No se pudo obtener el usuario");
+      setUser(user.data)
       router.push("/dashboard")
     })
   })
