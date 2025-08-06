@@ -19,10 +19,10 @@ const fetcher = async<T>({ url, tags = [], revalidate, errorMessage, ...options 
         });
         clearTimeout(timeout);
 
-        if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+        // if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
 
         const data = await response.json();
-        return { data, success: response.ok, message: data.message ?? "Success" };
+        return { data, success: response.ok, message: data.detail ?? data.message ?? "Success" };
 
     } catch (error) {
         clearTimeout(timeout);

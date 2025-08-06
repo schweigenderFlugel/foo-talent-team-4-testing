@@ -1,10 +1,10 @@
 
 
 export enum MeasureUnit {
-    "KILOGRAMMS",
-    "UNIT",
-    "HOURS",
-    "OTHERS",
+    KILOGRAMMS = "KILOGRAMMS",
+    UNIT = "UNIT",
+    HOURS = "HOURS",
+    OTHERS = "OTHERS"
 }
 
 
@@ -13,7 +13,7 @@ export interface CreateFeedStock {
     description: string
     measure_unit: MeasureUnit
     unit_cost: number
-    provider: string | null
+    provider: string
 }
 
 
@@ -25,3 +25,8 @@ export interface Feedstock extends CreateFeedStock {
 }
 
 
+export interface ResponseFeedstock {
+    description?: string,
+    message?: string,
+    error?: string
+}

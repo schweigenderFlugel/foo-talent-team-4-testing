@@ -1,42 +1,24 @@
-"use client"
-import SubmitButton from "@/components/auth/submit-button"
-import useUser from "@/hooks/use-user"
-import { useRouter } from "next/navigation"
-import { useTransition, useEffect } from "react"
+import DataTable from "@/components/dashboard/feedstocks/data-table"
+import { DetailsFeedstockDialog } from "@/components/dashboard/feedstocks/details-feedstock-dialog"
+import UpdateFeedstockForm from "@/components/dashboard/feedstocks/update-feedstock-form"
+import { getFeedstocks } from "@/services/api/feedstock"
+import { Feedstock } from "@/types/objects/feedstock"
 
 
-const Dashboard = () => {
-    const router = useRouter()
-    const [pending, startTransition] = useTransition()
-    const { isLogged, user, logout } = useUser()
 
-    useEffect(() => {
-        if (!isLogged) {
-            router.push("/login")
-        }
-    }, [isLogged, router]);
+const DashboardPage = async () => {
+    const res = await getFeedstocks()
+    const initialData = "data" in res ? res.data : []
+    console.log(initialData);
 
-    const handleClick = () => {
-        startTransition(async () => {
-            // Simular una llamada a la API para logout
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            logout();
-            router.push('/login');
-        });
-    }
+    return (<>
 
-    return (
-        <section className="min-h-screen text-white text-center content-center">
-            <div className="bg-black rounded-xl my-auto max-w-lg mx-auto p-3">
-                <h1 className="text-4xl my-2 p-2">Usuario conectado</h1>
-                <h2 className="text-2xl font-bold p-2">
-                    {user?.email}
-                </h2>
-
-                <SubmitButton pendingText="Cerrando" text="Cerrar Sesión" isPending={pending} variant={"destructive"} className="my-3 cursor-pointer" type="button" onClick={handleClick} />
-            </div>
+        <section className="max-w-[calc(100%-4rem)] mx-auto w-4xl">
+            <DataTable initialData={initialData as Feedstock[]} />
+            <DetailsFeedstockDialog />
+            <UpdateFeedstockForm />
         </section>
-    )
+    </>)
 }
 
-export default Dashboard
+export default DashboardPage
