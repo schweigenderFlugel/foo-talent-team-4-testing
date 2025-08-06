@@ -33,9 +33,10 @@ import { postFeedstock } from "@/services/api/feedstock"
 import { feedstockSchema, FormDataFeedstock } from "@/lib/zod/objects/feedstock-schema"
 import useDialog from "@/hooks/use-feedstock-dialog"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 interface CreateFeedstockFormProps {
-    onSuccess: () => void
 }
 const defaultValues = {
     name: "",
@@ -44,7 +45,8 @@ const defaultValues = {
     unit_cost: 0,
     provider: "",
 }
-export function CreateFeedstockForm({ onSuccess }: CreateFeedstockFormProps) {
+export function CreateFeedstockForm({ }: CreateFeedstockFormProps) {
+    const router = useRouter()
     const { isOpen, setIsOpen } = useDialog()
     const [message, setMessage] = useState<string>("")
     const form = useForm<FormDataFeedstock>({
@@ -55,12 +57,18 @@ export function CreateFeedstockForm({ onSuccess }: CreateFeedstockFormProps) {
     const onSubmit = async (values: FormDataFeedstock) => {
         setMessage("")
         const response = await postFeedstock({ feedstock: values })
-        if (!('error' in response)) {
+        if (!('error' in response) && response.success) {
             form.reset()
             setIsOpen(false)
-            onSuccess()
+            router.refresh()
+            toast(response.message)
         } else {
-            setMessage(response.error)
+            const msg = () => {
+                if ("message" in response && response.message) return response.message;
+                else if ("error" in response) return response.error;
+                return "Ocurrio un error"
+            }
+            setMessage(msg())
         }
     }
 
@@ -166,7 +174,7 @@ export function CreateFeedstockForm({ onSuccess }: CreateFeedstockFormProps) {
                             )}
                         />
                         <DialogFooter className="sm:justify-between items-center">
-                            <p className="text-sm w-fit">{message}</p>
+                            <p className="text-sm w-fit text-red-500">{message}</p>
                             <Button type="submit">Create Feedstock</Button>
                         </DialogFooter>
                     </form>

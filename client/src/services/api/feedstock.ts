@@ -29,7 +29,7 @@ export const getFeedstocks = async () => {
 }
 
 export const getFeedstockById = async ({ id }: { id: string }) => {
-    const res = await fetch<Feedstock | { error: string }>({ path: id })
+    const res = await fetch<Feedstock | { error: string }>({ path: "/" + id })
     return res;
 }
 
@@ -42,7 +42,7 @@ export const postFeedstock = async ({ feedstock }: { feedstock: CreateFeedStock 
 // PUT
 export const putFeedstock = async ({ id, feedstock }: { id: string, feedstock: Partial<CreateFeedStock> }) => {
     const res = await fetch<ResponseFeedstock>({
-        path: id, method: "PUT",
+        path: "/" + id, method: "PUT",
         body: JSON.stringify(feedstock),
     })
 
@@ -51,7 +51,7 @@ export const putFeedstock = async ({ id, feedstock }: { id: string, feedstock: P
 
 // DELETE
 export const deleteFeedstock = async ({ id }: { id: string }) => {
-    const res = await fetch<ResponseFeedstock>({ path: id, method: "DELETE", })
+    const res = await fetch<ResponseFeedstock>({ path: "/" + id, method: "DELETE", })
 
     return res;
 }

@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Dropdown from "./columns-dropdown"
 import {
   Table,
@@ -34,15 +33,13 @@ interface DataTableProps {
 }
 
 const DataTable = ({ initialData }: DataTableProps) => {
-  const router = useRouter()
-  const [data] = useState<Feedstock[]>(initialData)
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable<Feedstock>({
-    data,
+    data: initialData,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -73,7 +70,7 @@ const DataTable = ({ initialData }: DataTableProps) => {
         />
         <div className="flex items-center space-x-2">
           <Dropdown table={table} />
-          <CreateFeedstockForm onSuccess={() => router.refresh()} />
+          <CreateFeedstockForm />
         </div>
       </div>
       <div className="overflow-hidden rounded-md border">

@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { deleteFeedstock, getFeedstockById, putFeedstock } from "@/services/api/feedstock"
 import { Feedstock } from "@/types/objects/feedstock"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const columns: ColumnDef<Feedstock>[] = [
   {
@@ -84,7 +87,26 @@ const columns: ColumnDef<Feedstock>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const router = useRouter()
+
+      const feedstock = row.original
+      const onDelete = async () => {
+        const res = await deleteFeedstock({ id: feedstock.id });
+        if (!('error' in res) && res.success) {
+          router.refresh()
+          toast(res.message)
+        }
+      }
+
+      const onDetail = async () => {
+        const res = await getFeedstockById({ id: feedstock.id });
+        console.log(res);
+      }
+
+      const onEdit = async () => {
+        // const res = await putFeedstock({ id: feedstock.id, feedstock });
+        // console.log(res);
+      }
 
       return (
         <DropdownMenu>
@@ -97,14 +119,14 @@ const columns: ColumnDef<Feedstock>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(feedstock.id)}
             >
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Details</DropdownMenuItem>
+            <DropdownMenuItem onClick={onDetail}>Details</DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={onDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
