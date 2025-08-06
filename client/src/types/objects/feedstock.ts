@@ -1,10 +1,10 @@
 
 
 export enum MeasureUnit {
-    "KILOGRAMMS",
-    "UNIT",
-    "HOURS",
-    "OTHERS",
+    KILOGRAMMS = "KILOGRAMMS",
+    UNIT = "UNIT",
+    HOURS = "HOURS",
+    OTHERS = "OTHERS"
 }
 
 
