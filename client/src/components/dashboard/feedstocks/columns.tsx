@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useDetailDialog } from "@/hooks/use-feedstock-dialog"
 import { deleteFeedstock, getFeedstockById, putFeedstock } from "@/services/api/feedstock"
 import { Feedstock } from "@/types/objects/feedstock"
 import { ColumnDef } from "@tanstack/react-table"
@@ -88,7 +89,7 @@ const columns: ColumnDef<Feedstock>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const router = useRouter()
-
+      const { setIsOpen, setFeedstock } = useDetailDialog()
       const feedstock = row.original
       const onDelete = async () => {
         const res = await deleteFeedstock({ id: feedstock.id });
@@ -100,7 +101,12 @@ const columns: ColumnDef<Feedstock>[] = [
 
       const onDetail = async () => {
         const res = await getFeedstockById({ id: feedstock.id });
-        console.log(res);
+        if (!('error' in res) && res.success && res.data && "name" in res.data) {
+          setIsOpen(true)
+          setFeedstock(res.data)
+        } else if ("message" in res) (
+          toast(res.message)
+        )
       }
 
       const onEdit = async () => {
