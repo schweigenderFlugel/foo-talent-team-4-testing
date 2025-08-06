@@ -67,7 +67,19 @@ const columns: ColumnDef<Feedstock>[] = [
   },
   {
     accessorKey: "unit_cost",
-    header: () => <div className="text-right">Unit Cost</div>,
+    header: ({ column }) => {
+      return (
+        <div className="text-right">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Unit Cost
+            <ArrowUpDown />
+          </Button>
+        </div>
+      )
+    },
     cell: ({ row }) => {
       const unit_cost = parseFloat(row.getValue("unit_cost"))
 
@@ -77,7 +89,7 @@ const columns: ColumnDef<Feedstock>[] = [
         currency: "USD",
       }).format(unit_cost)
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium pr-3">{formatted}</div>
     },
   },
   {
