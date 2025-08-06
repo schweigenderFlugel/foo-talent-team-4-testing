@@ -4,10 +4,12 @@ import UpdateFeedstockForm from "@/components/dashboard/feedstocks/update-feedst
 import { getFeedstocks } from "@/services/api/feedstock"
 import { Feedstock } from "@/types/objects/feedstock"
 
-
+export const metadata = { title: "Dashboard" }
 
 const DashboardPage = async () => {
     const res = await getFeedstocks()
+    if ("message" in res && !res.success) return <div>Error: {res.message}</div>
+
     const initialData = "data" in res ? res.data : []
 
     return (<>

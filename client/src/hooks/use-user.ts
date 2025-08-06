@@ -1,21 +1,22 @@
-"use client"
+// hooks/use-user.ts
 import { useEffect } from "react"
 import useUserStore from "@/store/user-store"
 
-const THIRTY_MINUTES = 30 * 60 * 1000 // 30 minutos en milisegundos por el valor de la cookie del token
+const THIRTY_MINUTES = 30 * 60 * 1000
 
 const useUser = () => {
     const { user, timestamp, logout, setUser } = useUserStore()
 
     useEffect(() => {
+        if (!user || !timestamp) return // Si no hay user o timestamp, no hacemos nada
+
         const now = Date.now()
+        const expired = now - timestamp > THIRTY_MINUTES
 
-        const expired = timestamp && now - timestamp > THIRTY_MINUTES
-
-        if (!user || expired) {
+        if (expired) {
             logout()
             try {
-                localStorage.removeItem("user-storage") // limpieza manual por si acaso
+                localStorage.removeItem("user-storage")
             } catch (e) {
                 console.error("Error clearing localStorage:", e)
             }
