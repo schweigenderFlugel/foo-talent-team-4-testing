@@ -10,7 +10,7 @@ const RegisterPage = () => {
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="bg-muted relative hidden lg:block">
         <img
-          src="https://wallpaperbat.com/img/853516-marvel-comic-characters-wallpaper-top-free-marvel-comic-characters-background.jpg"
+          src="https://www.corporatevision-news.com/wp-content/uploads/2023/08/Software-testing.jpg"
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover object-left brightness-[0.9]"
         />

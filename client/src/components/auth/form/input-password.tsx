@@ -22,12 +22,12 @@ const InputPassword: FC<PropsInputPassword> = ({ formId, register, errors }) => 
                 <Label htmlFor="password">Password</Label>
                 {
                     formId === "login" ?
-                        (<Link
-                            href="#"
-                            className="ml-auto text-sm underline-offset-4 hover:underline"
+                        (<p
+                            // href="#"
+                            className="ml-auto text-sm underline-offset-4 hover:underline cursor-not-allowed opacity-75"
                         >
                             Forgot your password?
-                        </Link>)
+                        </p>)
                         : ""
                 }
             </div>

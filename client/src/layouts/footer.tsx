@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Toaster } from "@/components/ui/sonner"
 
 export function Footer() {
@@ -15,24 +14,21 @@ export function Footer() {
             </div>
 
             <nav className="flex items-center space-x-4">
-              <Link
-                href="/privacy"
-                className="text-sm text-gray-500 hover:text-gray-900"
+              <p
+                className="text-sm text-gray-500 hover:text-gray-900 w-fit cursor-not-allowed opacity-75"
               >
                 Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm text-gray-500 hover:text-gray-900"
+              </p>
+              <p
+                className="text-sm text-gray-500 hover:text-gray-900 w-fit cursor-not-allowed opacity-75"
               >
                 Terms of Service
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm text-gray-500 hover:text-gray-900"
+              </p>
+              <p
+                className="text-sm text-gray-500 hover:text-gray-900 w-fit cursor-not-allowed opacity-75"
               >
                 Contact
-              </Link>
+              </p>
             </nav>
           </div>
         </div>

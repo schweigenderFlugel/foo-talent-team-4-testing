@@ -21,18 +21,16 @@ const Navigation = () => {
       >
         Dashboard
       </Link>
-      <Link
-        href="/#"
+      <p
         className="block cursor-not-allowed opacity-75 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
       >
         Costs
-      </Link>
-      <Link
-        href="/#"
+      </p>
+      <p
         className="block cursor-not-allowed opacity-75 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
       >
         Reports
-      </Link>
+      </p>
       <LogoutButton />
     </>
   )
@@ -70,7 +68,7 @@ const Navigation = () => {
             Iniciar Sesión
           </Button>
         </Link>
-        <Link href={"/register"} className="md:block">
+        <Link href={"/register"} className="md:block hidden">
           <Button variant="outline">
             Registrarme
           </Button>
