@@ -30,7 +30,8 @@ const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string,
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
             // 30 minutos de expiracion
-            expires: new Date(Date.now() + 30 * 60 * 1000)
+            expires: new Date(Date.now() + 30 * 60 * 1000),
+            maxAge: 30 * 60
         })
     }
 

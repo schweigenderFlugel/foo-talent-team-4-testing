@@ -10,8 +10,7 @@ import SubmitButton from "./submit-button"
 import { useState, useTransition } from "react"
 import useUser from "@/hooks/use-user"
 import { useRouter } from "next/navigation"
-import fetcher from "@/utils/fetcher"
-import { User } from "@/types/auth/user"
+import { ObjUser } from "@/types/auth/user"
 
 const LoginForm = () => {
   const {
@@ -37,7 +36,7 @@ const LoginForm = () => {
       const user = await res.json()
       if ("error" in user) return setError("No se pudo obtener el usuario");
       if ("data" in user && user.data != null) {
-        setUser(user.data as User)
+        setUser(user.data as ObjUser)
         router.push("/dashboard")
       }
     })
