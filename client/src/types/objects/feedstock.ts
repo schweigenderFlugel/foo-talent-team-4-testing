@@ -13,7 +13,7 @@ export interface CreateFeedStock {
     description: string
     measure_unit: MeasureUnit
     unit_cost: number
-    provider: string | null
+    provider: string
 }
 
 

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useDetailDialog } from "@/hooks/use-feedstock-dialog"
+import { useDetailDialog, useUpdateDialog } from "@/hooks/use-feedstock-dialog"
 import { deleteFeedstock, getFeedstockById, putFeedstock } from "@/services/api/feedstock"
 import { Feedstock } from "@/types/objects/feedstock"
 import { ColumnDef } from "@tanstack/react-table"
@@ -90,6 +90,7 @@ const columns: ColumnDef<Feedstock>[] = [
     cell: ({ row }) => {
       const router = useRouter()
       const { setIsOpen, setFeedstock } = useDetailDialog()
+      const { setIsOpen: setIsOpenUpdate, setUpdateFeedstock } = useUpdateDialog()
       const feedstock = row.original
       const onDelete = async () => {
         const res = await deleteFeedstock({ id: feedstock.id });
@@ -109,9 +110,11 @@ const columns: ColumnDef<Feedstock>[] = [
         )
       }
 
-      const onEdit = async () => {
+      const onEdit = () => {
         // const res = await putFeedstock({ id: feedstock.id, feedstock });
         // console.log(res);
+        setIsOpenUpdate(true)
+        setUpdateFeedstock(feedstock)
       }
 
       return (
@@ -131,7 +134,7 @@ const columns: ColumnDef<Feedstock>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onDetail}>Details</DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={onDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

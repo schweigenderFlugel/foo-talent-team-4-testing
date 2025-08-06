@@ -9,7 +9,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import {
     Form,
@@ -28,33 +27,29 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { MeasureUnit } from "@/types/objects/feedstock"
-import { Plus } from "lucide-react"
-import { postFeedstock } from "@/services/api/feedstock"
+import { putFeedstock } from "@/services/api/feedstock"
 import { feedstockSchema, FormDataFeedstock } from "@/lib/zod/objects/feedstock-schema"
-import useDialog from "@/hooks/use-feedstock-dialog"
+import { useUpdateDialog } from "@/hooks/use-feedstock-dialog"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useEffect } from "react"
+import { defaultValues } from "./create-feedstock-form"
 
-export const defaultValues = {
-    name: "",
-    description: "",
-    measure_unit: MeasureUnit.KILOGRAMMS,
-    unit_cost: 0,
-    provider: "",
-}
-export function CreateFeedstockForm() {
+const UpdateFeedstockForm = () => {
     const router = useRouter()
-    const { isOpen, setIsOpen } = useDialog()
+    const { isOpen, setIsOpen, updateFeedstock } = useUpdateDialog()
     const [message, setMessage] = useState<string>("")
+
     const form = useForm<FormDataFeedstock>({
         resolver: zodResolver(feedstockSchema),
-        defaultValues: defaultValues
+        defaultValues
     })
 
     const onSubmit = async (values: FormDataFeedstock) => {
         setMessage("")
-        const response = await postFeedstock({ feedstock: values })
+        if (!updateFeedstock?.id) return;
+        const response = await putFeedstock({ feedstock: values, id: updateFeedstock.id })
         if (!('error' in response) && response.success) {
             form.reset()
             setIsOpen(false)
@@ -70,19 +65,25 @@ export function CreateFeedstockForm() {
         }
     }
 
+    useEffect(() => {
+        if (updateFeedstock) {
+            form.reset({
+                name: updateFeedstock.name,
+                description: updateFeedstock.description,
+                measure_unit: updateFeedstock.measure_unit,
+                unit_cost: updateFeedstock.unit_cost,
+                provider: updateFeedstock.provider != null ? updateFeedstock.provider : "",
+            })
+        }
+    }, [updateFeedstock, form])
+
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-                <Button variant="outline">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Feedstock
-                </Button>
-            </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Create New Feedstock</DialogTitle>
+                    <DialogTitle>Update Feedstock</DialogTitle>
                     <DialogDescription>
-                        Add the details for the new feedstock item.
+                        Add the details for the update feedstock item.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -173,7 +174,7 @@ export function CreateFeedstockForm() {
                         />
                         <DialogFooter className="sm:justify-between items-center">
                             <p className="text-sm w-fit text-red-500">{message}</p>
-                            <Button type="submit">Create Feedstock</Button>
+                            <Button type="submit">Update Feedstock</Button>
                         </DialogFooter>
                     </form>
                 </Form>
@@ -181,3 +182,5 @@ export function CreateFeedstockForm() {
         </Dialog>
     )
 }
+
+export default UpdateFeedstockForm;

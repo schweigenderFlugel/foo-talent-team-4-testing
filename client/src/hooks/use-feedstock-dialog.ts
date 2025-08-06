@@ -30,4 +30,22 @@ export const useDetailDialog = () => {
     }
 }
 
+
+export const useUpdateDialog = () => {
+    const { isOpen, setIsOpen, updateFeedstock, setUpdateFeedstock } = useDialogStore(useShallow((state) => ({
+        isOpen: state.updateFeedstockDialog,
+        setIsOpen: state.setUpdateFeedstockDialog,
+        updateFeedstock: state.updateFeedstock,
+        setUpdateFeedstock: state.setUpdateFeedstock
+    })))
+
+    return {
+        isOpen,
+        setIsOpen,
+        updateFeedstock,
+        setUpdateFeedstock
+    }
+}
+
+
 export default useDialog
