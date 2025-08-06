@@ -1,20 +1,19 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
+const Navigation = dynamic(
+  () => import("./navigation"), {
+  loading: () => (<div className="flex items-center gap-3">
+    <div className="border bg-black rounded-xl  h-9 w-20">
+    </div>
+
+    <div className="border border-mutted-foreground rounded-xl h-9 w-20">
+    </div>
+
+  </div >)
+})
+
 export function Header() {
-  const Navigation = dynamic(
-    () => import("./navigation"), {
-    loading: () => (<div className="flex items-center gap-3">
-      <div className="border bg-black rounded-xl  h-9 w-20">
-      </div>
-
-      <div className="border border-mutted-foreground rounded-xl h-9 w-20">
-      </div>
-
-    </div >)
-  })
-
-
   return (
     <header className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

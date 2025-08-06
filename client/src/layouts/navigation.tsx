@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import useUser from "@/hooks/use-user"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
+import LogoutButton from "./logout-button"
 
 const Navigation = () => {
-  const { isLogged } = useUser()
+  const { user } = useUser()
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => setIsOpen(prev => !prev)
@@ -22,20 +23,21 @@ const Navigation = () => {
       </Link>
       <Link
         href="/#"
-        className="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+        className="block cursor-not-allowed opacity-75 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
       >
         Costs
       </Link>
       <Link
         href="/#"
-        className="block text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+        className="block cursor-not-allowed opacity-75 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
       >
         Reports
       </Link>
+      <LogoutButton />
     </>
   )
 
-  if (isLogged) {
+  if (user != null) {
     return (
       <div className="flex items-center">
         {/* Mobile */}
