@@ -19,9 +19,6 @@ const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string,
         body: JSON.stringify(validated.data)
     })
 
-
-    console.log(res)
-
     if (!res.success) return { error: res.message }
 
     const useCookie = await cookies()
@@ -31,7 +28,9 @@ const onLoginSubmit = async (formData: LoginFormData): Promise<{ error?: string,
             name: "access_token",
             value: res.data.access_token,
             secure: process.env.NODE_ENV === 'production',
-            httpOnly: true
+            httpOnly: true,
+            // 30 minutos de expiracion
+            expires: new Date(Date.now() + 30 * 60 * 1000)
         })
     }
 

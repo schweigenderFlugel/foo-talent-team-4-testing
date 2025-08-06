@@ -9,7 +9,6 @@ import { Feedstock } from "@/types/objects/feedstock"
 const DashboardPage = async () => {
     const res = await getFeedstocks()
     const initialData = "data" in res ? res.data : []
-    console.log(initialData);
 
     return (<>
 

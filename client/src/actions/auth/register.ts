@@ -17,7 +17,6 @@ const onRegisterSubmit = async (formData: RegisterUserFormData): Promise<{ error
         body: JSON.stringify(validated.data)
     })
 
-    console.log(res);
     if (!res.success) return { error: res.message }
 
     return { message: res.message }
