@@ -1,30 +1,14 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getFeedstocks } from "@/services/api/feedstock";
-import { Feedstock } from "@/types/objects/feedstock";
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { CheckCircle, PackagePlus, Settings, ShieldCheck } from "lucide-react"
+import Link from "next/link"
 
 export default function Home() {
-  const [feedstocks, setFeedstocks] = useState<Feedstock[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchFeedstocks() {
-      const res = await getFeedstocks();
-
-      if ("message" in res && !res.success) {
-        setError(res.message ?? null);
-      } else if ("data" in res && Array.isArray(res.data)) {
-        setFeedstocks(res.data);
-      }
-      setLoading(false);
-    }
-    fetchFeedstocks();
-  }, []);
-
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
@@ -39,51 +23,83 @@ export default function Home() {
             Bienvenido a TestingApp
           </h1>
           <p className="leading-7 max-w-xl text-gray-200 mb-8">
-            Una plataforma simple para manejar tu emprendimiento de manera
-            sencilla.
+            Una plataforma moderna para administrar insumos y controlar tu
+            negocio con eficiencia.
           </p>
-          <Button
-            variant="outline"
-            size="lg"
-            className="bg-black border-white text-white hover:bg-white hover:text-black transition"
-          >
-            Empezar ahora
-          </Button>
+          <Link href="/#features">
+            <Button
+              variant="outline"
+              size="lg"
+              className="bg-black border-white text-white hover:bg-white hover:text-black transition"
+            >
+              Empezar ahora
+            </Button>
+          </Link>
         </div>
       </section>
 
-      {/* Productos */}
-      <section className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold mb-6 text-center">Productos</h2>
+      {/* Features */}
+      <section className="container max-w-[calc(100vw-4rem))] mx-auto px-4 py-16" id="features">
+        <h2 className="text-3xl font-bold text-center mb-12">
+          ¿Qué podés hacer con TestingApp?
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="text-center">
+            <CardHeader>
+              <PackagePlus className="mx-auto h-10 w-10 text-blue-500" />
+              <CardTitle className="text-xl mt-2">Crear Insumos</CardTitle>
+            </CardHeader>
+            <CardContent>
+              Agregá fácilmente nuevos productos con sus datos como unidad de
+              medida y costo.
+            </CardContent>
+          </Card>
 
-        {loading && <p className="text-center">Cargando productos...</p>}
+          <Card className="text-center">
+            <CardHeader>
+              <Settings className="mx-auto h-10 w-10 text-green-500" />
+              <CardTitle className="text-xl mt-2">Editar Registros</CardTitle>
+            </CardHeader>
+            <CardContent>
+              Actualizá información en tiempo real desde el dashboard.
+            </CardContent>
+          </Card>
 
-        {error && (
-          <p className="text-center text-destructive">Error: {error}</p>
-        )}
+          <Card className="text-center">
+            <CardHeader>
+              <CheckCircle className="mx-auto h-10 w-10 text-yellow-500" />
+              <CardTitle className="text-xl mt-2">Visualización Clara</CardTitle>
+            </CardHeader>
+            <CardContent>
+              Tabla moderna con filtros y control por columnas para encontrar
+              todo fácilmente.
+            </CardContent>
+          </Card>
 
-        {!loading && !error && feedstocks.length === 0 && (
-          <p className="text-center">No hay productos disponibles.</p>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {!loading &&
-            !error &&
-            feedstocks.map((prod) => (
-              <Card
-                key={prod.id}
-                className="shadow-sm hover:shadow-md transition"
-              >
-                <CardHeader>
-                  <CardTitle>{prod.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>Precio: ${prod.unit_cost}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <Card className="text-center">
+            <CardHeader>
+              <ShieldCheck className="mx-auto h-10 w-10 text-purple-500" />
+              <CardTitle className="text-xl mt-2">Seguridad por Rol</CardTitle>
+            </CardHeader>
+            <CardContent>
+              Acceso restringido: solo administradores pueden modificar los
+              datos.
+            </CardContent>
+          </Card>
         </div>
+      </section>
+
+      {/* CTA final */}
+      <section className="bg-muted py-16 text-center px-4">
+        <h2 className="text-3xl font-bold mb-4">Listo para organizar tu gestión de insumos</h2>
+        <p className="max-w-xl mx-auto mb-6 text-muted-foreground">
+          Unite a TestingApp y llevá el control de tu emprendimiento al
+          siguiente nivel.
+        </p>
+        <Link className="text-white text-lg px-6 py-2 bg-black rounded-md hover:bg-white hover:text-black transition border border-black font-medium" href={"/login"}>
+          Comenzar ahora
+        </Link>
       </section>
     </div>
-  );
+  )
 }
