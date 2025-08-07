@@ -102,6 +102,3 @@ src/
 - Despliegue en Vercel
 - Implementación de rutas protegidas
 - Implementación de un CRUD de productos.
-
-### En Progreso 🚧
-- Mejoras en la UI/UX
